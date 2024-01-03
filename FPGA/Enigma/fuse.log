@@ -1,0 +1,31 @@
+Running: /opt/Xilinx/14.6/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_beh.prj" "work.rotor_top_tb" 
+ISim P.68d (signature 0xfbc00daa)
+Number of CPUs detected in this system: 6
+Turning on mult-threading, number of parallel sub-compilation jobs: 12 
+Determining compilation order of HDL files
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/types.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/mod26counter.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/Rotor1.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/Rotor_top.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb.vhd" into library work
+Starting static elaboration
+Completed static elaboration
+Fuse Memory Usage: 86140 KB
+Fuse CPU Usage: 810 ms
+Compiling package standard
+Compiling package std_logic_1164
+Compiling package std_logic_arith
+Compiling package std_logic_unsigned
+Compiling package numeric_std
+Compiling package types
+Compiling architecture behavioral of entity mod26counter [mod26counter_default]
+Compiling architecture structural of entity Rotor1 [\Rotor1((0,1,2,3,5,4,6,7,8,9,10,...]
+Compiling architecture structural of entity Rotor_top [rotor_top_default]
+Compiling architecture behavior of entity rotor_top_tb
+Time Resolution for simulation is 1ps.
+Waiting for 1 sub-compilation(s) to finish...
+Compiled 13 VHDL Units
+Built simulation executable /home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_isim_beh.exe
+Fuse Memory Usage: 926284 KB
+Fuse CPU Usage: 890 ms
+GCC CPU Usage: 120 ms
