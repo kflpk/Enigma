@@ -33,10 +33,13 @@ use work.types.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Rotor1 is 
-    Generic ( mapping : in t_alphabet := (0,1,2,
+entity Rotor is 
+    Generic ( fw_map : in t_alphabet := (0,1,2,
 					3,5,4,6,7,8,9,10,11,12,13,14,15,
-					16,17,18,19,20,21,22,23,24,25,26)
+					16,17,18,19,20,21,22,23,24,25);
+					bw_map : in t_alphabet := (0,1,2,
+					3,5,4,6,7,8,9,10,11,12,13,14,15,
+					16,17,18,19,20,21,22,23,24,25)
 				);
 	 Port ( x1   : in   STD_LOGIC_VECTOR (5 downto 0);
            y1   : out  STD_LOGIC_VECTOR (5 downto 0);
@@ -47,9 +50,9 @@ entity Rotor1 is
            data : in   STD_LOGIC_VECTOR (5 downto 0);
 			  load : in   STD_LOGIC
 			  );
-end Rotor1;
+end Rotor;
 
-architecture Structural of Rotor1 is
+architecture Structural of Rotor is
 	signal Q_INT      : STD_LOGIC_VECTOR (5 downto 0); -- the offset value
 	signal LETTER_IN  : STD_LOGIC_VECTOR (5 downto 0); -- before translation 
 	signal LETTER_OUT : STD_LOGIC_VECTOR (5 downto 0); -- after translation
@@ -83,12 +86,11 @@ begin
 	process(LETTER_IN)
 	begin
 		if LETTER_IN >= 0 and LETTER_IN < 26 then
-			LETTER_OUT <= std_logic_vector( to_unsigned(mapping(to_integer(unsigned(LETTER_IN))), LETTER_OUT'length));
+			LETTER_OUT <= std_logic_vector( to_unsigned(fw_map(to_integer(unsigned(LETTER_IN))), LETTER_OUT'length));
 		end if;
 	end process;
 	
 	y1 <= LETTER_OUT - Q_INT when (LETTER_OUT - Q_INT >= 0 and LETTER_OUT - Q_INT < 26) else (LETTER_OUT - Q_INT - 38);
-	test <= "000000" - "001001";
 end Structural;
 
  

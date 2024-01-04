@@ -15,7 +15,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 
 package types is
 
-	type t_alphabet is array(0 to 26) of integer;
+	type t_alphabet is array(0 to 25) of integer;
 
 end types;
 

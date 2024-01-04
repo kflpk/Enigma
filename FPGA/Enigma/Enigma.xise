@@ -12,7 +12,7 @@
     <!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved. -->
   </header>
 
-  <version xil_pn:ise_version="14.6" xil_pn:schema_version="2"/>
+  <version xil_pn:ise_version="14.7" xil_pn:schema_version="2"/>
 
   <files>
     <file xil_pn:name="EN_top.vhd" xil_pn:type="FILE_VHDL">
@@ -69,13 +69,6 @@
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="156"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="156"/>
     </file>
-    <file xil_pn:name="ss_hindus.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
-    </file>
-    <file xil_pn:name="ss_hindus.ucf" xil_pn:type="FILE_UCF">
-      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
-    </file>
     <file xil_pn:name="sevenseg_prescaler.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
@@ -86,7 +79,7 @@
     </file>
     <file xil_pn:name="Rotor_top.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="4"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="rotor.ucf" xil_pn:type="FILE_UCF">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
@@ -433,7 +426,6 @@
   <bindings>
     <binding xil_pn:location="/EN_top" xil_pn:name="Nexys3_master.ucf"/>
     <binding xil_pn:location="/seven_seg_top" xil_pn:name="seven_segment.ucf"/>
-    <binding xil_pn:location="/sevensegment_ex01" xil_pn:name="ss_hindus.ucf"/>
     <binding xil_pn:location="/Rotor_top" xil_pn:name="rotor.ucf"/>
   </bindings>
 
