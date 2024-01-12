@@ -60,14 +60,14 @@ begin
 		
 		
 			case no_digit is 
-				when "00" => 
-					digits_int <= "1110";
-				when "01" => 
+				when "00" => 	--	4123
 					digits_int <= "1101";
-				when "10" => 
+				when "01" => 
 					digits_int <= "1011";
-				when "11" => 
+				when "10" => 
 					digits_int <= "0111";
+				when "11" => 
+					digits_int <= "1110";
 				when others =>
 					digits_int <= "1111";
 			end case;
@@ -97,7 +97,7 @@ begin
 	begin
 		--if rising_edge(clk) then
 			case current_digit is
-				--------------------------- ABCDEFG.
+				---------------------------      ABCDEFG.
 				when "0000" => segments_int <= "00000011"; -- 0
 				when "0001" => segments_int <= "10011111"; -- 1
 				when "0010" => segments_int <= "00100101"; -- 2

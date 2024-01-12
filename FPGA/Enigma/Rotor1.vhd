@@ -54,9 +54,11 @@ end Rotor;
 
 architecture Structural of Rotor is
 	signal Q_INT      : STD_LOGIC_VECTOR (5 downto 0); -- the offset value
-	signal LETTER_IN  : STD_LOGIC_VECTOR (5 downto 0); -- before translation 
-	signal LETTER_OUT : STD_LOGIC_VECTOR (5 downto 0); -- after translation
-	signal test 		: STD_LOGIC_VECTOR (5 downto 0);
+	signal LETTER_IN_FW  : STD_LOGIC_VECTOR (5 downto 0); -- before translation 
+	signal LETTER_OUT_FW : STD_LOGIC_VECTOR (5 downto 0); -- after translation
+	signal LETTER_IN_BW  : STD_LOGIC_VECTOR (5 downto 0); -- before translation 
+	signal LETTER_OUT_BW : STD_LOGIC_VECTOR (5 downto 0); -- after translation
+	-- signal test 		: STD_LOGIC_VECTOR (5 downto 0);
 	
 	component mod26counter is port( 
 			  Q    : out  STD_LOGIC_VECTOR (5 downto 0); 
@@ -77,20 +79,37 @@ begin
 	process(x1, Q_INT, clk)
 	begin
 		if x1 + Q_INT < 26 then
-			LETTER_IN <= (x1 + Q_INT);
+			LETTER_IN_FW <= (x1 + Q_INT);
 		else
-			LETTER_IN <= (x1 + Q_INT - 26);
+			LETTER_IN_FW <= (x1 + Q_INT - 26);
 		end if;
 	end process;
 	
-	process(LETTER_IN)
+	process(x2, Q_INT, clk)
 	begin
-		if LETTER_IN >= 0 and LETTER_IN < 26 then
-			LETTER_OUT <= std_logic_vector( to_unsigned(fw_map(to_integer(unsigned(LETTER_IN))), LETTER_OUT'length));
+		if x2 + Q_INT < 26 then
+			LETTER_IN_BW <= (x2 + Q_INT);
+		else
+			LETTER_IN_BW <= (x2 + Q_INT - 26);
 		end if;
 	end process;
 	
-	y1 <= LETTER_OUT - Q_INT when (LETTER_OUT - Q_INT >= 0 and LETTER_OUT - Q_INT < 26) else (LETTER_OUT - Q_INT - 38);
+	process(LETTER_IN_FW)
+	begin
+		if LETTER_IN_FW >= 0 and LETTER_IN_FW < 26 then
+			LETTER_OUT_FW <= std_logic_vector( to_unsigned(fw_map(to_integer(unsigned(LETTER_IN_FW))), LETTER_OUT_FW'length));
+		end if;
+	end process;
+	
+	process(LETTER_IN_BW)
+	begin
+		if LETTER_IN_BW >= 0 and LETTER_IN_BW < 26 then
+			LETTER_OUT_BW <= std_logic_vector( to_unsigned(bw_map(to_integer(unsigned(LETTER_IN_BW))), LETTER_OUT_BW'length));
+		end if;
+	end process;
+	
+	y1 <= LETTER_OUT_FW - Q_INT when (LETTER_OUT_FW - Q_INT >= 0 and LETTER_OUT_FW - Q_INT < 26) else (LETTER_OUT_FW - Q_INT - 38);
+	y2 <= LETTER_OUT_BW - Q_INT when (LETTER_OUT_BW - Q_INT >= 0 and LETTER_OUT_BW - Q_INT < 26) else (LETTER_OUT_BW - Q_INT - 38);
 end Structural;
 
  

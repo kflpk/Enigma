@@ -31,7 +31,8 @@ use work.types.all;
 --use UNISIM.VComponents.all;
 
 entity Rotor_top is
-    Port ( letter_out : out STD_LOGIC_VECTOR (5 downto 0);
+    Port ( letter_out_fw : inout STD_LOGIC_VECTOR (5 downto 0);
+	        letter_out_bw : inout STD_LOGIC_VECTOR (5 downto 0);
            cntr_leds  : out STD_LOGIC_VECTOR (5 downto 0);
 			  letter_in  : in  STD_LOGIC_VECTOR (5 downto 0);
            clk : in  STD_LOGIC;
@@ -39,6 +40,8 @@ entity Rotor_top is
 end Rotor_top;
 
 architecture Structural of Rotor_top is
+	signal backfeed : STD_LOGIC_VECTOR (5 downto 0);
+	
 	component Rotor is 
 	Generic (
 		fw_map : in t_alphabet;
@@ -119,14 +122,11 @@ begin
 		clk => clk,
 		rst => rst,
 		x1  => letter_in,
-		y1  => letter_out,
+		y1  => letter_out_fw,
 		data => (others => '0'),
 		load => '0',
-		x2   => (others => '0') 
+		x2   => letter_out_fw,
+		y2   => letter_out_bw
 	);
-	
-
-[
-	
 end Structural;
 

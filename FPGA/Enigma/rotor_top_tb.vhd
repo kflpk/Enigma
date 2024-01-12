@@ -40,8 +40,8 @@ ARCHITECTURE behavior OF rotor_top_tb IS
     -- Component Declaration for the Unit Under Test (UUT)
  
     COMPONENT Rotor_top
-    PORT(
-         letter_out : OUT  std_logic_vector(5 downto 0);
+    PORT(letter_out_fw : inout STD_LOGIC_VECTOR (5 downto 0);
+	      letter_out_bw : inout STD_LOGIC_VECTOR (5 downto 0);
          cntr_leds : OUT  std_logic_vector(5 downto 0);
          letter_in : IN  std_logic_vector(5 downto 0);
          clk : IN  std_logic;
@@ -56,7 +56,8 @@ ARCHITECTURE behavior OF rotor_top_tb IS
    signal rst : std_logic := '0';
 
  	--Outputs
-   signal letter_out : std_logic_vector(5 downto 0);
+   signal letter_out_fw : std_logic_vector(5 downto 0);
+	signal letter_out_bw : std_logic_vector(5 downto 0);
    signal cntr_leds : std_logic_vector(5 downto 0);
 
    -- Clock period definitions
@@ -66,7 +67,8 @@ BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
    uut: Rotor_top PORT MAP (
-          letter_out => letter_out,
+          letter_out_fw => letter_out_fw,
+			 letter_out_bw => letter_out_bw,
           cntr_leds => cntr_leds,
           letter_in => letter_in,
           clk => clk,
@@ -74,7 +76,7 @@ BEGIN
         );
 
    -- Clock process definitions
-   clk_process :process
+   clk_process : process
    begin
 		
 		for n in 0 to 3 loop
@@ -97,7 +99,7 @@ BEGIN
  
 
    -- Stimulus process
-   stim_proc: process
+   stim_proc : process
    begin		
 
 		rst <= '1';
@@ -118,6 +120,9 @@ BEGIN
 		
 		wait for clk_period;
 		letter_in <= "010001";
+		
+		wait for 21*clk_period;
+		letter_in <= "001010";
 		
       wait;
    end process;
