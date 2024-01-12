@@ -34,7 +34,10 @@ use IEEE.NUMERIC_STD.ALL;
 entity EN_top is
     Port ( Q : out  STD_LOGIC_VECTOR(7 downto 0);
 			  clk : in STD_LOGIC;
-			  clr : in STD_LOGIC
+			  clr : in STD_LOGIC;
+			  clk_led : out STD_LOGIC;
+			  clr_led : out STD_LOGIC;
+			  kbd_data : in STD_LOGIC
 			);
 end EN_top;
 
@@ -48,20 +51,16 @@ begin
 		if clk'event and clk='1' then
 			if clr='1' then
 				Q_INT <= "00000000";
-			elsif counter = O"100000000" then
-				Q_INT <= Q_INT + 1;
-				counter <= (others => '0');
 			else
-				counter <= counter + 1;
+				Q_INT <= Q_INT + 1;
 			end if;
 		end if;	
 		
 	end process;
 	
 	Q <= Q_INT;
-
-	
-	
+	clk_led <= clk;
+	clr_led <= kbd_data;
 
 end Behavioral;
 

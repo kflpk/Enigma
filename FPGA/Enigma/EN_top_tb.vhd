@@ -41,7 +41,7 @@ ARCHITECTURE behavior OF EN_top_tb IS
  
     COMPONENT EN_top
     PORT(
-         Q : OUT  std_logic_vector(3 downto 0);
+         Q : OUT  std_logic_vector(7 downto 0);
          clk : IN  std_logic;
          clr : IN  std_logic
         );
@@ -53,7 +53,7 @@ ARCHITECTURE behavior OF EN_top_tb IS
    signal clr : std_logic := '0';
 
  	--Outputs
-   signal Q : std_logic_vector(3 downto 0);
+   signal Q : std_logic_vector(7 downto 0);
 
    -- Clock period definitions
    constant clk_period : time := 10 ns;
