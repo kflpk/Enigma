@@ -70,6 +70,8 @@ architecture Behavioral of keyboard_reader_top is
 	 
 	 signal scancodes : STD_LOGIC_VECTOR(23 downto 0) := (others => '0');
 	 signal clk_pre : STD_LOGIC;
+	 signal test1 : STD_LOGIC_VECTOR(3 downto 0) := "1010";
+	 signal test2 : STD_LOGIC_VECTOR(0 to 3);
 begin
 	kbd : keyboard_reader port map(
 		clk => clk,
@@ -90,6 +92,8 @@ begin
 		clk => clk,
 		clk_pre => clk_pre
 	);
+	
+	test2 <= test1;
 	
 end Behavioral;
 

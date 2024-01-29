@@ -33,23 +33,23 @@ entity keyboard_reader is
     Port ( clk         : in  STD_LOGIC;
 			  kbd_data    : in  STD_LOGIC;
            kbd_clk     : in  STD_LOGIC;
-			  letters     : out STD_LOGIC_VECTOR(23 downto 0);
+			  letters     : out STD_LOGIC_VECTOR(0 to 23);
 			  led_clk     : out STD_LOGIC;
 			  led_data    : out STD_LOGIC
 			 );
 end keyboard_reader;
 
 architecture Behavioral of keyboard_reader is
-	signal sreg : STD_LOGIC_VECTOR(30 downto 0) := (others => '0');
+	signal sreg : STD_LOGIC_VECTOR(0 to 30) := (others => '0');
 	signal letters_sig : STD_LOGIC_VECTOR(23 downto 0);
 begin
 	process(kbd_clk)
 	begin
 		if rising_edge(kbd_clk) then
-			sreg <= sreg(sreg'high - 1 downto sreg'low) & kbd_data;
+			sreg <= sreg(sreg'low to sreg'high - 1) & kbd_data;
 		end if;
 	end process;
 	
-	letters <= sreg(28 downto 21) & sreg(18 downto 11) & sreg(8 downto 1);
+	letters <= sreg(21 to 28) & sreg(11 to 18) & sreg(1 to  8);
 end Behavioral;
 
