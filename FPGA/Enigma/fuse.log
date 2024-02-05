@@ -1,31 +1,25 @@
-Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_beh.prj" "work.rotor_top_tb" 
+Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb_beh.prj" "work.uart_tb" 
 ISim P.20131013 (signature 0xfbc00daa)
 Number of CPUs detected in this system: 6
 Turning on mult-threading, number of parallel sub-compilation jobs: 12 
 Determining compilation order of HDL files
 Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/types.vhd" into library work
-Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/mod26counter.vhd" into library work
-Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/Rotor1.vhd" into library work
-Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/Rotor_top.vhd" into library work
-Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tx.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb.vhd" into library work
 Starting static elaboration
 Completed static elaboration
-Fuse Memory Usage: 86140 KB
-Fuse CPU Usage: 940 ms
+Fuse Memory Usage: 86132 KB
+Fuse CPU Usage: 920 ms
 Compiling package standard
 Compiling package std_logic_1164
-Compiling package numeric_std
 Compiling package std_logic_arith
 Compiling package std_logic_unsigned
-Compiling package types
-Compiling architecture behavioral of entity mod26counter [mod26counter_default]
-Compiling architecture structural of entity Rotor1 [\Rotor1((4,10,12,5,11,6,3,16,21,...]
-Compiling architecture structural of entity Rotor_top [rotor_top_default]
-Compiling architecture behavior of entity rotor_top_tb
+Compiling package numeric_std
+Compiling architecture behavioral of entity uart_tx [\uart_tx(10000000,9600,true,0,8)...]
+Compiling architecture behavior of entity uart_tb
 Time Resolution for simulation is 1ps.
-Waiting for 1 sub-compilation(s) to finish...
-Compiled 13 VHDL Units
-Built simulation executable /home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_isim_beh.exe
-Fuse Memory Usage: 926288 KB
-Fuse CPU Usage: 1030 ms
-GCC CPU Usage: 160 ms
+Compiled 8 VHDL Units
+Built simulation executable /home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb_isim_beh.exe
+Fuse Memory Usage: 924108 KB
+Fuse CPU Usage: 1020 ms
+GCC CPU Usage: 130 ms

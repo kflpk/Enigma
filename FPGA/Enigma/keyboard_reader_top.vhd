@@ -36,6 +36,8 @@ entity keyboard_reader_top is
          kbd_clk     : in  STD_LOGIC;
 			--letters     : out STD_LOGIC_VECTOR(23 downto 0);
 			--led_clk     : out STD_LOGIC;
+			o_kbd_data  : out STD_LOGIC;
+			o_kbd_clk   : out STD_LOGIC;
 			seg			: out STD_LOGIC_VECTOR(7 downto 0);
 			an				: out STD_LOGIC_VECTOR(3 downto 0)
 	);
@@ -94,6 +96,8 @@ begin
 	);
 	
 	test2 <= test1;
+	o_kbd_data <= kbd_data;
+	o_kbd_clk  <= kbd_clk;
 	
 end Behavioral;
 

@@ -41,7 +41,5 @@ end Plugboard;
 architecture Behavioral of Plugboard is
 
 begin
-
-
 end Behavioral;
 

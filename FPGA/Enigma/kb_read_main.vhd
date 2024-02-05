@@ -47,7 +47,7 @@ architecture Behavioral of kb_main is
   SIGNAL scan_rdy : STD_LOGIC;
 
 COMPONENT kb_read
-	PORT(uyplllkkk
+	PORT(
 		clk : IN std_logic;
 		scancode : IN std_logic_vector(7 downto 0);
 		reset : IN std_logic;

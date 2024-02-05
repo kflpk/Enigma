@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/rotor_top_tb_beh.prj" "work.rotor_top_tb" 
+-intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb_beh.prj" "work.uart_tb" 
