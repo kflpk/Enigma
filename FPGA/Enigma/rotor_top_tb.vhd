@@ -43,9 +43,11 @@ ARCHITECTURE behavior OF rotor_top_tb IS
     PORT(letter_out_fw : inout STD_LOGIC_VECTOR (5 downto 0);
 	      letter_out_bw : inout STD_LOGIC_VECTOR (5 downto 0);
          cntr_leds : OUT  std_logic_vector(5 downto 0);
+			ceo       : out std_logic;
          letter_in : IN  std_logic_vector(5 downto 0);
          clk : IN  std_logic;
-         rst : IN  std_logic
+         rst : IN  std_logic;
+			ce  : in  std_logic
         );
     END COMPONENT;
     
@@ -54,6 +56,8 @@ ARCHITECTURE behavior OF rotor_top_tb IS
    signal letter_in : std_logic_vector(5 downto 0) := (others => '0');
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
+	signal ce  : std_logic := '1';
+	signal ceo : std_logic := '0';
 
  	--Outputs
    signal letter_out_fw : std_logic_vector(5 downto 0);
@@ -72,7 +76,9 @@ BEGIN
           cntr_leds => cntr_leds,
           letter_in => letter_in,
           clk => clk,
-          rst => rst
+          rst => rst,
+			 ce  => ce,
+			 ceo => ceo
         );
 
    -- Clock process definitions
@@ -94,7 +100,7 @@ BEGIN
 			clk <= '1';
 			wait for clk_period/2;
 		end loop;
-		wait;
+		--wait;
    end process;
  
 
@@ -123,6 +129,9 @@ BEGIN
 		
 		wait for 21*clk_period;
 		letter_in <= "001010";
+		
+		wait for 15*clk_period;
+		ce <= '0';
 		
       wait;
    end process;

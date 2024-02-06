@@ -37,7 +37,9 @@ entity mod26counter is
            data : in  STD_LOGIC_VECTOR (5 downto 0);
            load : in  STD_LOGIC;
            clk : in  STD_LOGIC;
-           clr : in  STD_LOGIC);
+           clr : in  STD_LOGIC;
+			  ce  : in   STD_LOGIC
+			);
 end mod26counter;
 
 architecture Behavioral of mod26counter is
@@ -45,7 +47,7 @@ architecture Behavioral of mod26counter is
 begin		
 	process (clk)	
 	begin
-		if clk'event and clk='1' then
+		if clk'event and clk='1' and ce = '1' then
 			if clr='1' then
 				Q_INT <= "000000";
 			else	

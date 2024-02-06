@@ -34,17 +34,21 @@ use work.types.all;
 --use UNISIM.VComponents.all;
 
 entity Rotor is 
-    Generic ( fw_map : in t_alphabet := (0,1,2,
+    Generic (  
+				fw_map : in t_alphabet := (0,1,2,
 					3,5,4,6,7,8,9,10,11,12,13,14,15,
 					16,17,18,19,20,21,22,23,24,25);
-					bw_map : in t_alphabet := (0,1,2,
+				bw_map : in t_alphabet := (0,1,2,
 					3,5,4,6,7,8,9,10,11,12,13,14,15,
-					16,17,18,19,20,21,22,23,24,25)
+					16,17,18,19,20,21,22,23,24,25);
+				turnover : integer range 0 to 25 := 16
 				);
 	 Port ( x1   : in   STD_LOGIC_VECTOR (5 downto 0);
            y1   : out  STD_LOGIC_VECTOR (5 downto 0);
            x2   : in   STD_LOGIC_VECTOR (5 downto 0);
            y2   : out  STD_LOGIC_VECTOR (5 downto 0);
+			  ce   : in   STD_LOGIC;
+			  ceo  : out  STD_LOGIC;
            clk  : in   STD_LOGIC;
            rst  : in   STD_LOGIC;
            data : in   STD_LOGIC_VECTOR (5 downto 0);
@@ -53,19 +57,22 @@ entity Rotor is
 end Rotor;
 
 architecture Structural of Rotor is
-	signal Q_INT      : STD_LOGIC_VECTOR (5 downto 0); -- the offset value
+	signal Q_INT         : STD_LOGIC_VECTOR (5 downto 0); -- the offset value
 	signal LETTER_IN_FW  : STD_LOGIC_VECTOR (5 downto 0); -- before translation 
 	signal LETTER_OUT_FW : STD_LOGIC_VECTOR (5 downto 0); -- after translation
 	signal LETTER_IN_BW  : STD_LOGIC_VECTOR (5 downto 0); -- before translation 
 	signal LETTER_OUT_BW : STD_LOGIC_VECTOR (5 downto 0); -- after translation
 	-- signal test 		: STD_LOGIC_VECTOR (5 downto 0);
+	signal ceo_int			: STD_LOGIC;
 	
 	component mod26counter is port( 
 			  Q    : out  STD_LOGIC_VECTOR (5 downto 0); 
            data : in   STD_LOGIC_VECTOR (5 downto 0);
            load : in   STD_LOGIC;
            clk  : in   STD_LOGIC;
-           clr  : in   STD_LOGIC);
+           clr  : in   STD_LOGIC;
+			  ce   : in   STD_LOGIC
+			 );
 	end component;
 begin
 	cntr : mod26counter port map(
@@ -73,7 +80,8 @@ begin
 		data => data,
 		load => load,
 		clr => rst,
-		clk => clk
+		clk => clk,
+		ce  => ce
 	);
 	
 	process(x1, Q_INT, clk)
@@ -94,6 +102,16 @@ begin
 		end if;
 	end process;
 	
+	process(Q_INT)
+	begin
+		if turnover = to_integer(unsigned(Q_INT)) then
+			ceo_int <= '1';
+		else
+			ceo_int <= '0';
+		end if;
+		
+	end process;
+	
 	process(LETTER_IN_FW)
 	begin
 		if LETTER_IN_FW >= 0 and LETTER_IN_FW < 26 then
@@ -108,8 +126,9 @@ begin
 		end if;
 	end process;
 	
-	y1 <= LETTER_OUT_FW - Q_INT when (LETTER_OUT_FW - Q_INT >= 0 and LETTER_OUT_FW - Q_INT < 26) else (LETTER_OUT_FW - Q_INT - 38);
-	y2 <= LETTER_OUT_BW - Q_INT when (LETTER_OUT_BW - Q_INT >= 0 and LETTER_OUT_BW - Q_INT < 26) else (LETTER_OUT_BW - Q_INT - 38);
+	ceo <= ceo_int;
+	y1  <= LETTER_OUT_FW - Q_INT when (LETTER_OUT_FW - Q_INT >= 0 and LETTER_OUT_FW - Q_INT < 26) else (LETTER_OUT_FW - Q_INT - 38);
+	y2  <= LETTER_OUT_BW - Q_INT when (LETTER_OUT_BW - Q_INT >= 0 and LETTER_OUT_BW - Q_INT < 26) else (LETTER_OUT_BW - Q_INT - 38);
 end Structural;
 
  

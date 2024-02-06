@@ -34,9 +34,12 @@ entity Rotor_top is
     Port ( letter_out_fw : inout STD_LOGIC_VECTOR (5 downto 0);
 	        letter_out_bw : inout STD_LOGIC_VECTOR (5 downto 0);
            cntr_leds  : out STD_LOGIC_VECTOR (5 downto 0);
+			  ceo        : out STD_LOGIC;
 			  letter_in  : in  STD_LOGIC_VECTOR (5 downto 0);
            clk : in  STD_LOGIC;
-           rst : in  STD_LOGIC);
+           rst : in  STD_LOGIC;
+			  ce  : in  STD_LOGIC
+			  );
 end Rotor_top;
 
 architecture Structural of Rotor_top is
@@ -45,7 +48,8 @@ architecture Structural of Rotor_top is
 	component Rotor is 
 	Generic (
 		fw_map : in t_alphabet;
-		bw_map : in t_alphabet
+		bw_map : in t_alphabet;
+		turnover : integer range 0 to 25 := 16
 	);
 	Port  ( x1   : in   STD_LOGIC_VECTOR (5 downto 0);
            y1   : out  STD_LOGIC_VECTOR (5 downto 0);
@@ -54,7 +58,9 @@ architecture Structural of Rotor_top is
            clk  : in   STD_LOGIC;
            rst  : in   STD_LOGIC;
            data : in   STD_LOGIC_VECTOR (5 downto 0);
-			  load : in   STD_LOGIC
+			  load : in   STD_LOGIC;
+			  ce   : in   STD_LOGIC;
+			  ceo  : out  STD_LOGIC
 	);
 	end component;
 	
@@ -63,7 +69,8 @@ architecture Structural of Rotor_top is
            data : in  STD_LOGIC_VECTOR (5 downto 0);
            load : in  STD_LOGIC;
            clk : in  STD_LOGIC;
-           clr : in  STD_LOGIC
+           clr : in  STD_LOGIC;
+			  ce  : in STD_LOGIC
 	);
 	end component;
 	
@@ -80,7 +87,8 @@ begin
 		clr => rst,
 		Q   => cntr_leds,
 		data => (others => '0'),
-		load => '0'
+		load => '0',
+		ce   => ce
 	);
 	
 	rot1 : Rotor
@@ -126,7 +134,9 @@ begin
 		data => (others => '0'),
 		load => '0',
 		x2   => letter_out_fw,
-		y2   => letter_out_bw
+		y2   => letter_out_bw,
+		ce   => ce,
+		ceo  => ceo
 	);
 end Structural;
 
