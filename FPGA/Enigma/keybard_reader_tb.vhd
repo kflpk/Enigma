@@ -43,10 +43,11 @@ ARCHITECTURE behavior OF keybard_reader_tb IS
     PORT(
          clk : IN  std_logic;
          kbd_data : IN  std_logic;
-         kbd_clk : IN  std_logic;
-         letters : OUT  std_logic_vector(23 downto 0);
-         led_clk : OUT  std_logic;
-         led_data : OUT  std_logic
+         kbd_clk  : IN  std_logic;
+         letters  : OUT std_logic_vector(23 downto 0);
+         led_clk  : OUT std_logic;
+         led_data : OUT std_logic;
+			ascii    : OUT std_logic_vector(7 downto 0)
         );
     END COMPONENT;
     
@@ -60,6 +61,9 @@ ARCHITECTURE behavior OF keybard_reader_tb IS
    signal letters : std_logic_vector(23 downto 0);
    signal led_clk : std_logic;
    signal led_data : std_logic;
+	signal znak     : std_logic_vector(8 downto 0) :=  "000100001";
+	signal F0       : std_logic_vector(8 downto 0) :=  "011110000";
+	signal ascii    : std_logic_vector(7 downto 0);
 
    -- Clock period definitions
    constant clk_period : time := 10 ns;
@@ -75,7 +79,8 @@ BEGIN
           kbd_clk => kbd_clk,
           letters => letters,
           led_clk => led_clk,
-          led_data => led_data
+          led_data => led_data,
+			 ascii    => ascii
         );
 
    -- Clock process definitions
@@ -98,6 +103,26 @@ BEGIN
 			kbd_clk <= '1';
 			wait for kbd_clk_period/2;
 		end loop;
+		
+		wait for 10*clk_period;
+		
+		for i in 0 to 10 loop
+			kbd_clk <= '0';
+			wait for kbd_clk_period/2;
+			kbd_clk <= '1';
+			wait for kbd_clk_period/2;
+		end loop;
+		
+		wait for 2*clk_period;
+		
+		for i in 0 to 10 loop
+			kbd_clk <= '0';
+			wait for kbd_clk_period/2;
+			kbd_clk <= '1';
+			wait for kbd_clk_period/2;
+		end loop;
+		
+		
    end process;
  
    led_clk_process :process
@@ -115,38 +140,91 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 10*clk_period;
 		
-		kbd_data <= '0';
-		wait for clk_period;
+		-- Znak
 		
 		kbd_data <= '0';
 		wait for clk_period;
-		
-		kbd_data <= '0';
+	
+		kbd_data <= znak(0);
+		wait for clk_period;		
+		kbd_data <= znak(1);
+		wait for clk_period;
+		kbd_data <= znak(2);
+		wait for clk_period;
+		kbd_data <= znak(3);
+		wait for clk_period;
+		kbd_data <= znak(4);
+		wait for clk_period;
+		kbd_data <= znak(5);
+		wait for clk_period;
+		kbd_data <= znak(6);
+		wait for clk_period;
+		kbd_data <= znak(7);
+		wait for clk_period;
+		kbd_data <= znak(8);
 		wait for clk_period;
 		
 		kbd_data <= '1';
 		wait for clk_period;
 		
-		kbd_data <= '0';
-		wait for clk_period;
+		wait for 10*clk_period;
+		
+		-- F0
 		
 		kbd_data <= '0';
+		wait for clk_period;
+	
+		kbd_data <= F0(0);
+		wait for clk_period;		
+		kbd_data <= F0(1);
+		wait for clk_period;
+		kbd_data <= F0(2);
+		wait for clk_period;
+		kbd_data <= F0(3);
+		wait for clk_period;
+		kbd_data <= F0(4);
+		wait for clk_period;
+		kbd_data <= F0(5);
+		wait for clk_period;
+		kbd_data <= F0(6);
+		wait for clk_period;
+		kbd_data <= F0(7);
+		wait for clk_period;
+		kbd_data <= F0(8);
 		wait for clk_period;
 		
 		kbd_data <= '1';
 		wait for clk_period;
 		
+		wait for 2*clk_period;
+		
+		-- znak
 		kbd_data <= '0';
 		wait for clk_period;
-		
-		kbd_data <= '0';
+	
+		kbd_data <= znak(0);
+		wait for clk_period;		
+		kbd_data <= znak(1);
+		wait for clk_period;
+		kbd_data <= znak(2);
+		wait for clk_period;
+		kbd_data <= znak(3);
+		wait for clk_period;
+		kbd_data <= znak(4);
+		wait for clk_period;
+		kbd_data <= znak(5);
+		wait for clk_period;
+		kbd_data <= znak(6);
+		wait for clk_period;
+		kbd_data <= znak(7);
+		wait for clk_period;
+		kbd_data <= znak(8);
 		wait for clk_period;
 		
 		kbd_data <= '1';
 		wait for clk_period;
 		
-		kbd_data <= '1';
-		wait for clk_period;
+		wait;
 		
    end process;
 
