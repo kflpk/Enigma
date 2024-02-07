@@ -53,8 +53,8 @@ ARCHITECTURE behavior OF keybard_reader_tb IS
 
    --Inputs
    signal clk : std_logic := '0';
-   signal kbd_data : std_logic := '0';
-   signal kbd_clk : std_logic := '0';
+   signal kbd_data : std_logic := '1';
+   signal kbd_clk : std_logic := '1';
 
  	--Outputs
    signal letters : std_logic_vector(23 downto 0);
@@ -82,17 +82,22 @@ BEGIN
    clk_process :process
    begin
 		clk <= '0';
-		wait for clk_period/2;
+		wait for clk_period/20;
 		clk <= '1';
-		wait for clk_period/2;
+		wait for clk_period/20;
    end process;
  
    kbd_clk_process :process
    begin
-		kbd_clk <= '0';
-		wait for kbd_clk_period/2;
-		kbd_clk <= '1';
-		wait for kbd_clk_period/2;
+	
+		wait for 10.25*clk_period;
+		
+		for i in 0 to 10 loop
+			kbd_clk <= '0';
+			wait for kbd_clk_period/2;
+			kbd_clk <= '1';
+			wait for kbd_clk_period/2;
+		end loop;
    end process;
  
    led_clk_process :process
@@ -108,16 +113,41 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for 100 ns;	
-
-      wait for clk_period*10;
+      wait for 10*clk_period;
+		
+		kbd_data <= '0';
+		wait for clk_period;
+		
+		kbd_data <= '0';
+		wait for clk_period;
+		
+		kbd_data <= '0';
+		wait for clk_period;
 		
 		kbd_data <= '1';
 		wait for clk_period;
+		
 		kbd_data <= '0';
-      -- insert stimulus here 
-
-      wait;
+		wait for clk_period;
+		
+		kbd_data <= '0';
+		wait for clk_period;
+		
+		kbd_data <= '1';
+		wait for clk_period;
+		
+		kbd_data <= '0';
+		wait for clk_period;
+		
+		kbd_data <= '0';
+		wait for clk_period;
+		
+		kbd_data <= '1';
+		wait for clk_period;
+		
+		kbd_data <= '1';
+		wait for clk_period;
+		
    end process;
 
 END;

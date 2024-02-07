@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/uart_tb_beh.prj" "work.uart_tb" 
+-intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/keybard_reader_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/keybard_reader_tb_beh.prj" "work.keybard_reader_tb" 

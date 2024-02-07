@@ -47,7 +47,8 @@ ARCHITECTURE behavior OF rotor_top_tb IS
          letter_in : IN  std_logic_vector(5 downto 0);
          clk : IN  std_logic;
          rst : IN  std_logic;
-			ce  : in  std_logic
+			ce  : in  std_logic;
+			ce_over : in std_logic
         );
     END COMPONENT;
     
@@ -58,6 +59,7 @@ ARCHITECTURE behavior OF rotor_top_tb IS
    signal rst : std_logic := '0';
 	signal ce  : std_logic := '1';
 	signal ceo : std_logic := '0';
+	signal ce_over : std_logic := '1';
 
  	--Outputs
    signal letter_out_fw : std_logic_vector(5 downto 0);
@@ -78,7 +80,8 @@ BEGIN
           clk => clk,
           rst => rst,
 			 ce  => ce,
-			 ceo => ceo
+			 ceo => ceo,
+			 ce_over => ce_over
         );
 
    -- Clock process definitions
@@ -113,6 +116,7 @@ BEGIN
 		wait for clk_period;
 		
 		rst <= '0';
+		ce_over <= '0';
 		
 		wait for clk_period;
 		
@@ -132,6 +136,9 @@ BEGIN
 		
 		wait for 15*clk_period;
 		ce <= '0';
+		
+		wait for 5*clk_period;
+		ce <= '1';
 		
       wait;
    end process;
