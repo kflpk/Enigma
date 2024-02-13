@@ -47,12 +47,12 @@ end keyboard_reader_top;
 architecture Behavioral of keyboard_reader_top is
 		COMPONENT keyboard_reader
 		PORT(
-			clk : IN  std_logic;
+			clk      : IN  std_logic;
 			kbd_data : IN  std_logic;
-			kbd_clk : IN  std_logic;
-			letters : OUT  std_logic_vector(23 downto 0);
-			led_clk : OUT  std_logic;
-			led_data : OUT  std_logic;
+			kbd_clk  : IN  std_logic;
+			letters  : OUT std_logic_vector(23 downto 0);
+			led_clk  : OUT std_logic;
+			led_data : OUT std_logic;
 			ascii    : out std_logic_vector(7 downto 0)
 		  );
 		END COMPONENT;
@@ -76,6 +76,7 @@ architecture Behavioral of keyboard_reader_top is
 	 signal clk_pre : STD_LOGIC;
 	 signal test1 : STD_LOGIC_VECTOR(3 downto 0) := "1010";
 	 signal test2 : STD_LOGIC_VECTOR(0 to 3);
+	 signal dupa  : STD_LOGIC_VECTOR(15 downto 0) := "0001001000110100";
 begin
 	kbd : keyboard_reader port map(
 		clk => clk,
@@ -91,6 +92,7 @@ begin
 		clk      => clk_pre,
 		hex_in   => scancodes(15 downto 0)
 		--hex_in   => X"1234"
+		--hex_in     => dupa
 	);
 	
 	presc : sevenseg_prescaler port map(

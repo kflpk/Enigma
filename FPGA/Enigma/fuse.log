@@ -1,23 +1,25 @@
-Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib secureip -o /home/kacper/Programs/Enigma/FPGA/Enigma/keybard_reader_tb_isim_beh.exe -prj /home/kacper/Programs/Enigma/FPGA/Enigma/keybard_reader_tb_beh.prj work.keybard_reader_tb 
-ISim P.20131013 (signature 0xfbc00daa)
+Running: /opt/Xilinx/14.6/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "secureip" -o "/home/kacper/Programs/Enigma/FPGA/Enigma/mod26_to_ascii_tb_isim_beh.exe" -prj "/home/kacper/Programs/Enigma/FPGA/Enigma/mod26_to_ascii_tb_beh.prj" "work.mod26_to_ascii_tb" 
+ISim P.68d (signature 0xfbc00daa)
 Number of CPUs detected in this system: 6
 Turning on mult-threading, number of parallel sub-compilation jobs: 12 
 Determining compilation order of HDL files
 Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/types.vhd" into library work
-Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/keyboard_reader.vhd" into library work
-Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/keybard_reader_tb.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/mod26_to_ascii.vhd" into library work
+Parsing VHDL file "/home/kacper/Programs/Enigma/FPGA/Enigma/mod26_to_ascii_tb.vhd" into library work
 Starting static elaboration
 Completed static elaboration
 Fuse Memory Usage: 86132 KB
-Fuse CPU Usage: 870 ms
+Fuse CPU Usage: 820 ms
 Compiling package standard
 Compiling package std_logic_1164
 Compiling package numeric_std
-Compiling architecture behavioral of entity keyboard_reader [keyboard_reader_default]
-Compiling architecture behavior of entity keybard_reader_tb
+Compiling package std_logic_arith
+Compiling package std_logic_unsigned
+Compiling architecture behavioral of entity mod26_to_ascii [mod26_to_ascii_default]
+Compiling architecture behavior of entity mod26_to_ascii_tb
 Time Resolution for simulation is 1ps.
-Compiled 6 VHDL Units
-Built simulation executable /home/kacper/Programs/Enigma/FPGA/Enigma/keybard_reader_tb_isim_beh.exe
-Fuse Memory Usage: 919996 KB
-Fuse CPU Usage: 940 ms
-GCC CPU Usage: 1420 ms
+Compiled 8 VHDL Units
+Built simulation executable /home/kacper/Programs/Enigma/FPGA/Enigma/mod26_to_ascii_tb_isim_beh.exe
+Fuse Memory Usage: 924104 KB
+Fuse CPU Usage: 900 ms
+GCC CPU Usage: 100 ms

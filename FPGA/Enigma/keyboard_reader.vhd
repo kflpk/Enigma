@@ -31,6 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity keyboard_reader is
     Port ( clk         : in  STD_LOGIC;
+			  async_rst   : in  STD_LOGIC := '0';
 			  kbd_data    : in  STD_LOGIC;
            kbd_clk     : in  STD_LOGIC;
 			  letters     : out STD_LOGIC_VECTOR(23 downto 0) := (others => '0');
@@ -41,23 +42,41 @@ entity keyboard_reader is
 end keyboard_reader;
 
 architecture Behavioral of keyboard_reader is
-	signal sreg : STD_LOGIC_VECTOR(32 downto 0) := (others => '0');
-	signal letters_sig : STD_LOGIC_VECTOR(23 downto 0);
-	signal prev_clk    : STD_LOGIC := '1';
 	type state_t is (s_idle, s_start, s_rx, s_parity, s_stop);
-	signal state : state_t := s_idle;
-	signal parity_bit : STD_LOGIC;
-	signal idx  : integer := 0;
-	signal char_reg   : STD_LOGIC_VECTOR (7 downto 0);
-	signal ascii_int  : STD_LOGIC_VECTOR (7 downto 0);
+	
+	signal sreg        : STD_LOGIC_VECTOR(32 downto 0) := (others => '0');
+	signal letters_sig : STD_LOGIC_VECTOR(23 downto 0);
+	signal prev_clk    : STD_LOGIC := '1';	
+	signal state       : state_t := s_idle;
+	signal parity_bit  : STD_LOGIC;
+	signal idx         : integer := 0;
+	signal char_reg    : STD_LOGIC_VECTOR (7 downto 0);
+	signal ascii_int   : STD_LOGIC_VECTOR (7 downto 0) := "00000000";
+	signal counter     : integer range 0 to 11 := 0;
+	signal out_en      : STD_LOGIC := '0';
 begin
 	process(kbd_clk)
 	begin
 		if falling_edge(kbd_clk) then
 			--sreg <= sreg(sreg'high - 1 downto sreg'low) & kbd_data;
-			sreg <= kbd_data & sreg(sreg'high downto sreg'low + 1);
+			if counter = 10 then
+				counter <= 0;
+				out_en  <= '1';
+			else 
+				counter <= counter + 1;
+			end if;
+			
+			sreg <= kbd_data & sreg(sreg'high downto sreg'low + 1); -- shift right
 		end if;
 	end process;
+	
+	--process(async_rst) 
+	--begin
+	--	if (async_rst = '1') then
+	--		counter <= 0;
+	--		out_en  <= '0';
+	--	end if;
+	--end process;
 	
 	process(sreg)
 	begin
@@ -119,10 +138,12 @@ begin
 				when X"29" => ascii_int <= X"20"; -- space 
 				when others => ascii_int <= X"00"; -- NULL
 			end case;
+			
+			out_en <= '0';
 		end if;
 	end process;
 	
-	letters <=  sreg(9 downto  2) & sreg(19 downto 12) & sreg(30 downto 23);
+	letters <=  sreg(8 downto  1) & sreg(19 downto 12) & sreg(30 downto 23);
 	ascii   <= ascii_int;
 	
 --	process(clk)

@@ -36,9 +36,45 @@ ENTITY keybard_reader_tb IS
 END keybard_reader_tb;
  
 ARCHITECTURE behavior OF keybard_reader_tb IS 
- 
-    -- Component Declaration for the Unit Under Test (UUT)
- 
+	 procedure SendLetter(	signal kbd_data : out STD_LOGIC;
+									signal kbd_clk_stop : out STD_LOGIC;
+									constant scode : in STD_LOGIC_VECTOR(8 downto 0);
+									constant clk_period : time
+								 )
+	 is 
+	 begin
+		--Znak
+		kbd_clk_stop <= '0';
+		
+		kbd_data <= '0';
+		wait for clk_period;
+	
+		kbd_data <= scode(0);
+		wait for clk_period;		
+		kbd_data <= scode(1);
+		wait for clk_period;
+		kbd_data <= scode(2);
+		wait for clk_period;
+		kbd_data <= scode(3);
+		wait for clk_period;
+		kbd_data <= scode(4);
+		wait for clk_period;
+		kbd_data <= scode(5);
+		wait for clk_period;
+		kbd_data <= scode(6);
+		wait for clk_period;
+		kbd_data <= scode(7);
+		wait for clk_period;
+		kbd_data <= scode(8);
+		wait for clk_period;
+		
+		kbd_data <= '1';
+		
+		kbd_clk_stop <= '1';
+		wait for clk_period;
+	 end procedure;
+    
+	 -- Component Declaration for the Unit Under Test (UUT)
     COMPONENT keyboard_reader
     PORT(
          clk : IN  std_logic;
@@ -61,12 +97,20 @@ ARCHITECTURE behavior OF keybard_reader_tb IS
    signal letters : std_logic_vector(23 downto 0);
    signal led_clk : std_logic;
    signal led_data : std_logic;
-	signal znak     : std_logic_vector(8 downto 0) :=  "000100001";
-	signal F0       : std_logic_vector(8 downto 0) :=  "011110000";
+	
 	signal ascii    : std_logic_vector(7 downto 0);
+	
+	-- scancodes
+	signal sC       : std_logic_vector(8 downto 0) :=  "000100001";
+	signal sG       : std_logic_vector(8 downto 0) :=  "000110100"; -- 0x34
+	signal sL       : std_logic_vector(8 downto 0) :=  "001001011"; -- 0x4B
+	signal F0       : std_logic_vector(8 downto 0) :=  "011110000";
+	
+	-- auxillary signals 
+	signal kbd_clk_stop : STD_LOGIC := '1';
 
    -- Clock period definitions
-   constant clk_period : time := 10 ns;
+   constant clk_period     : time := 10 ns;
    constant kbd_clk_period : time := 10 ns;
    constant led_clk_period : time := 10 ns;
  
@@ -84,7 +128,7 @@ BEGIN
         );
 
    -- Clock process definitions
-   clk_process :process
+   clk_process : process
    begin
 		clk <= '0';
 		wait for clk_period/20;
@@ -92,40 +136,27 @@ BEGIN
 		wait for clk_period/20;
    end process;
  
-   kbd_clk_process :process
+   kbd_clk_process : process
    begin
 	
-		wait for 10.25*clk_period;
+		wait for 0.25*clk_period;
 		
-		for i in 0 to 10 loop
-			kbd_clk <= '0';
-			wait for kbd_clk_period/2;
-			kbd_clk <= '1';
-			wait for kbd_clk_period/2;
-		end loop;
-		
-		wait for 10*clk_period;
-		
-		for i in 0 to 10 loop
-			kbd_clk <= '0';
-			wait for kbd_clk_period/2;
-			kbd_clk <= '1';
-			wait for kbd_clk_period/2;
-		end loop;
-		
-		wait for 2*clk_period;
-		
-		for i in 0 to 10 loop
-			kbd_clk <= '0';
-			wait for kbd_clk_period/2;
-			kbd_clk <= '1';
-			wait for kbd_clk_period/2;
-		end loop;
-		
+		if kbd_clk_stop = '0' then
+			for i in 0 to 10 loop
+				kbd_clk <= '0';
+				wait for kbd_clk_period/2;
+				kbd_clk <= '1';
+				wait for kbd_clk_period/2;
+			end loop;
+--		else
+--			for i in 0 to 10 loop
+--				wait for kbd_clk_period;
+--			end loop;
+		end if;
 		
    end process;
  
-   led_clk_process :process
+   led_clk_process : process
    begin
 		led_clk <= '0';
 		wait for led_clk_period/2;
@@ -135,97 +166,113 @@ BEGIN
  
 
    -- Stimulus process
-   stim_proc: process
+   stim_proc : process
    begin		
       -- hold reset state for 100 ns.
-      wait for 10*clk_period;
+--      wait for 10*clk_period;
+--		
+--		-- Znak
+--		
+--		kbd_data <= '0';
+--		wait for clk_period;
+--	
+--		kbd_data <= znak(0);
+--		wait for clk_period;		
+--		kbd_data <= znak(1);
+--		wait for clk_period;
+--		kbd_data <= znak(2);
+--		wait for clk_period;
+--		kbd_data <= znak(3);
+--		wait for clk_period;
+--		kbd_data <= znak(4);
+--		wait for clk_period;
+--		kbd_data <= znak(5);
+--		wait for clk_period;
+--		kbd_data <= znak(6);
+--		wait for clk_period;
+--		kbd_data <= znak(7);
+--		wait for clk_period;
+--		kbd_data <= znak(8);
+--		wait for clk_period;
+--		
+--		kbd_data <= '1';
+--		wait for clk_period;
+--		
+--		wait for 10*clk_period;
+--		
+--		-- F0
+--		
+--		kbd_data <= '0';
+--		wait for clk_period;
+--	
+--		kbd_data <= F0(0);
+--		wait for clk_period;		
+--		kbd_data <= F0(1);
+--		wait for clk_period;
+--		kbd_data <= F0(2);
+--		wait for clk_period;
+--		kbd_data <= F0(3);
+--		wait for clk_period;
+--		kbd_data <= F0(4);
+--		wait for clk_period;
+--		kbd_data <= F0(5);
+--		wait for clk_period;
+--		kbd_data <= F0(6);
+--		wait for clk_period;
+--		kbd_data <= F0(7);
+--		wait for clk_period;
+--		kbd_data <= F0(8);
+--		wait for clk_period;
+--		
+--		kbd_data <= '1';
+--		wait for clk_period;
+--		
+--		wait for 2*clk_period;
+--		kbd_data <= '1';
+--		wait for 2*clk_period;
+--		
+--		-- znak
+--		kbd_data <= '0';
+--		wait for clk_period;
+--	
+--		kbd_data <= znak(0);
+--		wait for clk_period;		
+--		kbd_data <= znak(1);
+--		wait for clk_period;
+--		kbd_data <= znak(2);
+--		wait for clk_period;
+--		kbd_data <= znak(3);
+--		wait for clk_period;
+--		kbd_data <= znak(4);
+--		wait for clk_period;
+--		kbd_data <= znak(5);
+--		wait for clk_period;
+--		kbd_data <= znak(6);
+--		wait for clk_period;
+--		kbd_data <= znak(7);
+--		wait for clk_period;
+--		kbd_data <= znak(8);
+--		wait for clk_period;
+--		
+--		kbd_data <= '1';
+--		wait for clk_period;
+--		
+--		wait;
+		wait for 100 ns;
+		SendLetter(kbd_data, kbd_clk_stop, sC, kbd_clk_period); wait for 11*kbd_clk_period;
+		SendLetter(kbd_data, kbd_clk_stop, f0, kbd_clk_period); wait for 11*kbd_clk_period;
+		SendLetter(kbd_data, kbd_clk_stop, sC, kbd_clk_period); wait for 20*kbd_clk_period;
 		
-		-- Znak
+		SendLetter(kbd_data, kbd_clk_stop, sG, kbd_clk_period); wait for 11*kbd_clk_period;
+		SendLetter(kbd_data, kbd_clk_stop, f0, kbd_clk_period); wait for 11*kbd_clk_period;
+		SendLetter(kbd_data, kbd_clk_stop, sG, kbd_clk_period); wait for 20*kbd_clk_period;
 		
-		kbd_data <= '0';
-		wait for clk_period;
-	
-		kbd_data <= znak(0);
-		wait for clk_period;		
-		kbd_data <= znak(1);
-		wait for clk_period;
-		kbd_data <= znak(2);
-		wait for clk_period;
-		kbd_data <= znak(3);
-		wait for clk_period;
-		kbd_data <= znak(4);
-		wait for clk_period;
-		kbd_data <= znak(5);
-		wait for clk_period;
-		kbd_data <= znak(6);
-		wait for clk_period;
-		kbd_data <= znak(7);
-		wait for clk_period;
-		kbd_data <= znak(8);
-		wait for clk_period;
 		
-		kbd_data <= '1';
-		wait for clk_period;
-		
-		wait for 10*clk_period;
-		
-		-- F0
-		
-		kbd_data <= '0';
-		wait for clk_period;
-	
-		kbd_data <= F0(0);
-		wait for clk_period;		
-		kbd_data <= F0(1);
-		wait for clk_period;
-		kbd_data <= F0(2);
-		wait for clk_period;
-		kbd_data <= F0(3);
-		wait for clk_period;
-		kbd_data <= F0(4);
-		wait for clk_period;
-		kbd_data <= F0(5);
-		wait for clk_period;
-		kbd_data <= F0(6);
-		wait for clk_period;
-		kbd_data <= F0(7);
-		wait for clk_period;
-		kbd_data <= F0(8);
-		wait for clk_period;
-		
-		kbd_data <= '1';
-		wait for clk_period;
-		
-		wait for 2*clk_period;
-		
-		-- znak
-		kbd_data <= '0';
-		wait for clk_period;
-	
-		kbd_data <= znak(0);
-		wait for clk_period;		
-		kbd_data <= znak(1);
-		wait for clk_period;
-		kbd_data <= znak(2);
-		wait for clk_period;
-		kbd_data <= znak(3);
-		wait for clk_period;
-		kbd_data <= znak(4);
-		wait for clk_period;
-		kbd_data <= znak(5);
-		wait for clk_period;
-		kbd_data <= znak(6);
-		wait for clk_period;
-		kbd_data <= znak(7);
-		wait for clk_period;
-		kbd_data <= znak(8);
-		wait for clk_period;
-		
-		kbd_data <= '1';
-		wait for clk_period;
+		SendLetter(kbd_data, kbd_clk_stop, sL, kbd_clk_period); wait for 11*kbd_clk_period;
+		SendLetter(kbd_data, kbd_clk_stop, f0, kbd_clk_period); wait for 11*kbd_clk_period;
+		SendLetter(kbd_data, kbd_clk_stop, sL, kbd_clk_period); wait for 11*kbd_clk_period;
 		
 		wait;
-		
    end process;
 
 END;
