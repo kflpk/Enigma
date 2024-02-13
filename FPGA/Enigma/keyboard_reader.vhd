@@ -63,6 +63,7 @@ begin
 				counter <= 0;
 				out_en  <= '1';
 			else 
+				out_en  <= '0';
 				counter <= counter + 1;
 			end if;
 			
@@ -80,7 +81,7 @@ begin
 	
 	process(sreg)
 	begin
-		if sreg(19 downto 12) = X"F0" then
+		if sreg(19 downto 12) = X"F0" and out_en = '1' then
 			case sreg(30 downto 23) is
 --				when => X"15" ascii_int <= "51"; -- Q
 --				when => X"1D" ascii_int <= "57"; -- W
@@ -139,7 +140,7 @@ begin
 				when others => ascii_int <= X"00"; -- NULL
 			end case;
 			
-			out_en <= '0';
+			--out_en <= '0';
 		end if;
 	end process;
 	
