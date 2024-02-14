@@ -19,10 +19,12 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use ieee.numeric_std.all;
+--use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
+--use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -37,7 +39,9 @@ entity keyboard_reader is
 			  letters     : out STD_LOGIC_VECTOR(23 downto 0) := (others => '0');
 			  led_clk     : out STD_LOGIC;
 			  led_data    : out STD_LOGIC;
-			  ascii       : out STD_LOGIC_VECTOR(7 downto 0) := (others => '0')
+			  ascii       : out STD_LOGIC_VECTOR(7 downto 0) := (others => '0');
+			  new_data    : out STD_LOGIC;
+			  read_data   : in STD_LOGIC := '0'
 			 );
 end keyboard_reader;
 
@@ -52,8 +56,10 @@ architecture Behavioral of keyboard_reader is
 	signal idx         : integer := 0;
 	signal char_reg    : STD_LOGIC_VECTOR (7 downto 0);
 	signal ascii_int   : STD_LOGIC_VECTOR (7 downto 0) := "00000000";
+	signal prev_ascii  : STD_LOGIC_VECTOR (7 downto 0) := "00000000";
 	signal counter     : integer range 0 to 11 := 0;
 	signal out_en      : STD_LOGIC := '0';
+	signal new_data_int : STD_LOGIC;
 begin
 	process(kbd_clk)
 	begin
@@ -82,6 +88,8 @@ begin
 	process(sreg)
 	begin
 		if sreg(19 downto 12) = X"F0" and out_en = '1' then
+			
+			
 			case sreg(30 downto 23) is
 --				when => X"15" ascii_int <= "51"; -- Q
 --				when => X"1D" ascii_int <= "57"; -- W
@@ -144,8 +152,23 @@ begin
 		end if;
 	end process;
 	
+	process(clk)
+	begin
+		if rising_edge(clk) then
+			--if prev_ascii = X"00" and ascii_int > X"40" and ascii_int < X"5B" then
+			if prev_ascii /= ascii_int then
+				new_data_int <= '1';
+			elsif new_data_int = '1' and read_data = '1' then
+				new_data_int <= '0';
+			end if;
+			prev_ascii <= ascii_int; 
+		end if;
+	end process;
+	
+	new_data <= new_data_int;
 	letters <=  sreg(8 downto  1) & sreg(19 downto 12) & sreg(30 downto 23);
 	ascii   <= ascii_int;
+	
 	
 --	process(clk)
 --	begin

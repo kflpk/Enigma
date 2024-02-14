@@ -130,8 +130,8 @@ NET "ascii<3>"         LOC = "V15" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin n
 NET "ascii<4>"         LOC = "M11" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin name = IO_L15P,                           Sch name = LD4
 NET "ascii<5>"         LOC = "N11" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin name = IO_L15N,                           Sch name = LD5
 NET "ascii<6>"         LOC = "R11" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin name = IO_L16P,                           Sch name = LD6
-NET "ascii<7>"         LOC = "T11" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin name = IO_L16N_VREF,                      Sch name = LD7
-
+#NET "ascii<7>"         LOC = "T11" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin name = IO_L16N_VREF,                      Sch name = LD7
+NET "new_data"         LOC = "T11" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin name = IO_L16N_VREF,                      Sch name = LD7
 
 ## Switches
 #NET "sw<0>"          LOC = "T10" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin name = IO_L29N_GCLK2,                     Sch name = SW0
@@ -148,7 +148,7 @@ NET "ascii<7>"         LOC = "T11" | IOSTANDARD = "LVCMOS33";   #Bank = 2, Pin n
 #NET "btn<0>"         LOC = "B8"  | IOSTANDARD = "LVCMOS33";   #Bank = 0, Pin name = IO_L33P,                           Sch name = BTNS
 #NET "btn<1>"         LOC = "A8"  | IOSTANDARD = "LVCMOS33";   #Bank = 0, Pin name = IO_L33N,                           Sch name = BTNU
 #NET "btn<2>"         LOC = "C4"  | IOSTANDARD = "LVCMOS33";   #Bank = 0, Pin name = IO_L1N_VREF,                       Sch name = BTNL
-#NET "btn<3>"         LOC = "C9"  | IOSTANDARD = "LVCMOS33";   #Bank = 0, Pin name = IO_L34N_GCLK18,                    Sch name = BTND
+NET "read_data"         LOC = "C9"  | IOSTANDARD = "LVCMOS33";   #Bank = 0, Pin name = IO_L34N_GCLK18,                    Sch name = BTND
 #NET "btn<4>"         LOC = "D9"  | IOSTANDARD = "LVCMOS33";   #Bank = 0, Pin name = IO_L34P_GCLK19,                    Sch name = BTNR
 
 ##JD, LX16 Die only

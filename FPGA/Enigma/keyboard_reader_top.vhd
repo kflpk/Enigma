@@ -40,7 +40,9 @@ entity keyboard_reader_top is
 			o_kbd_clk   : out STD_LOGIC;
 			seg			: out STD_LOGIC_VECTOR(7 downto 0);
 			an				: out STD_LOGIC_VECTOR(3 downto 0);
-			ascii       : out STD_LOGIC_VECTOR(7 downto 0)
+			ascii       : out STD_LOGIC_VECTOR(7 downto 0);
+			new_data    : out STD_LOGIC;
+			read_data   : in STD_LOGIC := '0'
 	);
 end keyboard_reader_top;
 
@@ -53,7 +55,9 @@ architecture Behavioral of keyboard_reader_top is
 			letters  : OUT std_logic_vector(23 downto 0);
 			led_clk  : OUT std_logic;
 			led_data : OUT std_logic;
-			ascii    : out std_logic_vector(7 downto 0)
+			ascii    : out std_logic_vector(7 downto 0);
+			new_data : out std_logic;
+			read_data : in std_logic
 		  );
 		END COMPONENT;
 	 
@@ -83,7 +87,9 @@ begin
 		kbd_data => kbd_data,
 		kbd_clk  => kbd_clk,
 		letters => scancodes,
-		ascii    => ascii
+		ascii    => ascii,
+		new_data => new_data,
+		read_data => read_data
 	);
 	
 	ssg : seven_segment port map(

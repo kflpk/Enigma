@@ -61,8 +61,32 @@ architecture Behavioral of uart_top is
 			);
 	end component;
 	
+	component Debouncer is 
+		 port(
+		 CLK : in STD_LOGIC;	   -- clk 100...300Hz
+		 CEI : in STD_LOGIC;	   -- clock enable input
+		 PUSH : in STD_LOGIC;	   -- pushbutton entry
+		 CLR : in STD_LOGIC;	   -- clear
+		 PE : out STD_LOGIC        -- debounced output	
+	 );
+	 end component;
+	 
+	component Prescaler is
+	 	generic(
+			divide_factor : integer := 10_000_000
+		);
+		port(
+			CLK : in STD_LOGIC;
+			CE : in STD_LOGIC;
+			CLR : in STD_LOGIC;
+			CEO : out STD_LOGIC
+		);	   
+	end component;
+	
 	signal tx_int : STD_LOGIC;
 	signal busy_int : STD_LOGIC;
+	signal start_dbc : STD_LOGIC;
+	signal ce_pd : STD_LOGIC;
 begin
 	transmitter : uart_tx generic map (
 		clk_freq   => 100_000_000,
@@ -76,7 +100,26 @@ begin
 		tx_busy => busy_int,
 		clk => clk,
 		rst => rst,
-		tx_start => start
+		tx_start => start_dbc
+	);
+	
+	presc : Prescaler 
+	generic map (
+		divide_factor => 10_000
+	)
+	port map(
+		clk => clk,
+		ce  => '1',
+		clr => rst,
+		ceo => ce_pd
+	);
+	
+	dbc : debouncer port map(
+		clk => clk,
+		cei => ce_pd,
+		push => start,
+		clr => rst,
+		pe => start_dbc
 	);
 	
 	tx_copy <= tx_int;

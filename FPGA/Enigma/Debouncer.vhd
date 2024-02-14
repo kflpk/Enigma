@@ -34,7 +34,7 @@ end Debouncer;
 
 architecture Debouncer of Debouncer is
 
-signal DELAY : std_logic_vector(2 downto 0);		-- debounce register
+signal DELAY : std_logic_vector(5 downto 0);		-- debounce register
 
 begin
 	process(CLK, CLR)
@@ -43,11 +43,11 @@ begin
 			DELAY <= (others => '0');
 		elsif CLK'event and CLK = '1' then
 			if CEI = '1' then
-				DELAY <= DELAY(1 downto 0) & PUSH;	-- shift register
+				DELAY <= DELAY(4 downto 0) & PUSH;	-- shift register
 			end if;
 		end if;
 	end process;
 	
-PE <= '1' when DELAY = "011" and CEI = '1' else '0';
+PE <= '1' when DELAY = "011111" and CEI = '1' else '0';
 	
 end Debouncer;

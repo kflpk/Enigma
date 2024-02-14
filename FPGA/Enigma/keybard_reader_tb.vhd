@@ -83,7 +83,9 @@ ARCHITECTURE behavior OF keybard_reader_tb IS
          letters  : OUT std_logic_vector(23 downto 0);
          led_clk  : OUT std_logic;
          led_data : OUT std_logic;
-			ascii    : OUT std_logic_vector(7 downto 0)
+			ascii    : OUT std_logic_vector(7 downto 0);
+			new_data    : out STD_LOGIC;
+			read_data   : in STD_LOGIC
         );
     END COMPONENT;
     
@@ -92,11 +94,13 @@ ARCHITECTURE behavior OF keybard_reader_tb IS
    signal clk : std_logic := '0';
    signal kbd_data : std_logic := '1';
    signal kbd_clk : std_logic := '1';
+	signal read_data : std_logic := '0';
 
  	--Outputs
    signal letters : std_logic_vector(23 downto 0);
    signal led_clk : std_logic;
    signal led_data : std_logic;
+	signal new_data : std_logic;
 	
 	signal ascii    : std_logic_vector(7 downto 0);
 	
@@ -124,7 +128,9 @@ BEGIN
           letters => letters,
           led_clk => led_clk,
           led_data => led_data,
-			 ascii    => ascii
+			 ascii    => ascii,
+			 new_data => new_data,
+			 read_data => read_data
         );
 
    -- Clock process definitions
@@ -274,5 +280,13 @@ BEGIN
 		
 		wait;
    end process;
-
+	
+	read_data_proc : process
+	begin
+		wait for 660 ns; 
+		read_data <= '1';
+		wait for 10 ns;
+		read_data <= '0';
+		wait;
+	end process;
 END;
