@@ -288,5 +288,7 @@ BEGIN
 		wait for 10 ns;
 		read_data <= '0';
 		wait;
+		
+		
 	end process;
 END;
